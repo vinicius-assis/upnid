@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 //import Background from '../../assets/fundo-carro.gif'
 import BackgroundPaused from '../../assets/paused-fundo.png'
+import Car from '../Car'
+
 
 const Screen = styled.div`
   width: 100vw;
@@ -13,7 +15,9 @@ const Screen = styled.div`
 `
 
 const ScreenWrapper = () => (
-  <Screen />
+  <Screen>
+    <Car />
+  </Screen>
 )
 
 export default ScreenWrapper
