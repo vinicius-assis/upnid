@@ -3,6 +3,7 @@ import styled from 'styled-components'
 //import Background from '../../assets/fundo-carro.gif'
 import BackgroundPaused from '../../assets/paused-fundo.png'
 import Car from '../Car'
+import InfoBar from '../InforBar'
 
 
 const Screen = styled.div`
@@ -16,6 +17,7 @@ const Screen = styled.div`
 
 const ScreenWrapper = () => (
   <Screen>
+    <InfoBar />
     <Car />
   </Screen>
 )
