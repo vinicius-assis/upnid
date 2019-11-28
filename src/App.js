@@ -1,7 +1,12 @@
 import React from 'react';
+import ScreenWrapper from './Components/Screen';
+import GlobalStyle from './Components/GlobalCss';
 
 const App = () => (
-  <h1>React</h1>
+  <>
+    <GlobalStyle />
+    <ScreenWrapper />
+  </>
 )
 
 export default App;
