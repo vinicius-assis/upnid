@@ -5,6 +5,7 @@ import BackgroundPaused from '../../assets/paused-fundo.png'
 import InfoBar from '../InforBar'
 import CarWrapper from '../Car'
 import PausedLayer from '../PausedLayer'
+import PlayerForm from '../PlayerForm'
 
 
 const Screen = styled.div`
@@ -18,6 +19,7 @@ const Screen = styled.div`
 
 const ScreenWrapper = () => {
   const [position, setPosition] = useState('middle')
+  const [nickname, setNickname] = useState('Unknown')
 
   function moveCar(event) {
     switch(event.key) {
@@ -32,12 +34,22 @@ const ScreenWrapper = () => {
     }   
   }
 
+  function formSubmit(event) {
+    event.preventDefault()
+    let username = event.target.username.value
+    if (username !== '') {
+      setNickname(username)
+    } 
+  }
+
   useEffect(() => document.addEventListener('keypress', moveCar))
 
   return (
     <Screen >
-      <PausedLayer />
-      <InfoBar />
+      <PausedLayer>
+        <PlayerForm event={formSubmit} />
+      </PausedLayer>
+      <InfoBar username={nickname}/>
       <CarWrapper position={position}/>
     </Screen>
 )}
