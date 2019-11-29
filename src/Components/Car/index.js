@@ -8,10 +8,6 @@ const Car = styled.img.attrs({
   width: 100%;
 `
 
-//left 30%
-//middle 50%
-//right 70%
-
 const Wrapper = styled.div`
   width: 20%;
   position: absolute;
@@ -28,7 +24,7 @@ const Wrapper = styled.div`
         return '50%'
     }
   }};
-  transform: translateX(-60%);
+  transform: translate(-60%, 10%);
   transition: left .3s linear;
 `
 

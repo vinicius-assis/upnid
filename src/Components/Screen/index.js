@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import BackgroundPaused from '../../assets/paused-fundo.png'
 import InfoBar from '../InforBar'
 import CarWrapper from '../Car'
+import PausedLayer from '../PausedLayer'
 
 
 const Screen = styled.div`
@@ -35,6 +36,7 @@ const ScreenWrapper = () => {
 
   return (
     <Screen >
+      <PausedLayer />
       <InfoBar />
       <CarWrapper position={position}/>
     </Screen>
