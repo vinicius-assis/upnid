@@ -6,8 +6,9 @@ import GlobalStyle from './Components/GlobalCss';
 const App = () => (
   <>
     <GlobalStyle />
-    <ScreenWrapper/>
+    <ScreenWrapper />
   </>
 )
+
 
 export default App;
