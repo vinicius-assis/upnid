@@ -27,6 +27,7 @@ const ScreenWrapper = () => {
   const [nickname, setNickname] = useState('Unknown')
   const [countToStart, setCountToStart] = useState('')
   const [countLap, setCountLap] = useState(0)
+  const [apperMessage, setApperMessage] = useState(false)
 
   const pauseGame = () => {
     setPaused(true)
@@ -53,7 +54,7 @@ const ScreenWrapper = () => {
   //Function for get a username from form and add in InfoBar
   const formSubmit = (event) => {
   event.preventDefault()
-  let username = event.target.username.value
+  let username = finished ? event.target.username.value : nickname
   if (username !== '') {
     setNickname(username)
   }
@@ -94,6 +95,7 @@ const ScreenWrapper = () => {
           clearInterval(interval)
           pauseGame()
           setFinished(true)
+          setApperMessage(true)
         } else if (paused) {
           clearInterval(interval)
           pauseGame()
@@ -113,7 +115,12 @@ const ScreenWrapper = () => {
     <Screen start={startGame} >
       {paused &&
       <PausedLayer>
-        <PlayerForm event={formSubmit} isFinished={finished} resetEvent={resetGame}/>
+        <PlayerForm 
+          event={formSubmit}
+          isFinished={finished}
+          resetEvent={resetGame}
+          username={nickname}
+          message={apperMessage}/>
       </PausedLayer>}
       <InfoBar username={nickname} lap={countLap}/>
       <CountDown>{countToStart}</CountDown>

@@ -61,8 +61,15 @@ const Form = styled.form`
   flex-direction: column;
 `
 
-const PlayerForm = ({ event, isFinished, resetEvent }) => (
+const FinishedMessage = styled.h2`
+  font-size: 5rem;
+  margin-bottom: 50px;
+  color: orange;
+`
+
+const PlayerForm = ({ event, isFinished, resetEvent, username, message }) => (
   <Form onSubmit={event}>
+    {message && <FinishedMessage>Congratulations {username}!!</FinishedMessage>}
     {isFinished && <Input/>}
     {!isFinished && <Submit newGame onClick={resetEvent} />}
     <Submit state={isFinished} />
