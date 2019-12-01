@@ -65,6 +65,14 @@ const FinishedMessage = styled.h2`
   font-size: 5rem;
   margin-bottom: 50px;
   color: orange;
+
+  @media (max-width: 850px) {
+    font-size: 3rem;
+  }
+
+  @media (max-width: 410px) {
+    font-size: 2.4rem;
+  }
 `
 
 const PlayerForm = ({ event, isFinished, resetEvent, username, message }) => (

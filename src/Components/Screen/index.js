@@ -8,6 +8,7 @@ import PausedLayer from '../PausedLayer'
 import PlayerForm from '../PlayerForm'
 import CountDown from '../Countdown'
 import TurboVisor from '../TurboInfo'
+import Tips from '../Tips'
 
 
 const Screen = styled.div`
@@ -31,7 +32,7 @@ const ScreenWrapper = () => {
   const [apperMessage, setApperMessage] = useState(false)
   const [turbo, setTurbo] = useState({
     status: false,
-    timeOut: 1000,
+    timeOut: 1500,
     number: 1
   })
 
@@ -52,12 +53,16 @@ const ScreenWrapper = () => {
         return setPosition('right')
       case 'p':
         return pauseGame()
-      case 't':
+        case 't':
+      if (!turbo.status) {
         return setTurbo({
           status: true,
-          timeOut: 800,
+          timeOut: 700,
           number: 0
         })
+      } else {
+        return
+      }
       default:
         return position
     }   
@@ -137,10 +142,11 @@ const ScreenWrapper = () => {
           resetEvent={resetGame}
           username={nickname}
           message={apperMessage}/>
+        {finished && <Tips />}
       </PausedLayer>}
       <InfoBar username={nickname} lap={countLap} />
       <CountDown>{countToStart}</CountDown>
-      <CarWrapper position={position} status={turbo.status} enableTurbo={startGame} />
+      <CarWrapper position={position} status={turbo.status} enableTurbo={startGame} filter={paused} />
       <TurboVisor amount={turbo.number} />
     </Screen>
 )}

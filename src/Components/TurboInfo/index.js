@@ -16,6 +16,10 @@ const TurboWrapper = styled.div`
 const TurboInfo = styled.span`
   font-size: 4rem;
   color: #ff681f;
+
+  @media (max-width: 500px) {
+    font-size: 2.4rem;
+  }
 `
 
 
