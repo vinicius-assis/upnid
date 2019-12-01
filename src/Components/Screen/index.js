@@ -6,24 +6,33 @@ import InfoBar from '../InfoBar'
 import CarWrapper from '../Car'
 import PausedLayer from '../PausedLayer'
 import PlayerForm from '../PlayerForm'
+import CountDown from '../Countdown'
 
 
 const Screen = styled.div`
   width: 100vw;
   height: 100vh;
-  background-image: url(${props => props.start === 'true' ? Background : BackgroundPaused });
+  background-image: url(${props => props.start === true ? Background : BackgroundPaused });
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 `
 
 const ScreenWrapper = () => {
-  const [startGame, setStartGame] = useState('false')
+  const [startGame, setStartGame] = useState(false)
+  const [paused, setPaused] = useState(true)
   const [position, setPosition] = useState('middle')
   const [nickname, setNickname] = useState('Unknown')
-
+  const [countToStart, setCountToStart] = useState('')
+  
   function playGame() {
-    setStartGame('true')
+    setPaused(false)
+    timer()
+  }
+
+  function pauseGame() {
+    setPaused(true)
+    setStartGame(false)
   }
 
   function moveCar(event) {
@@ -34,11 +43,26 @@ const ScreenWrapper = () => {
         return setPosition('middle')
       case 'd':
         return setPosition('right')
+      case 'p':
+        return pauseGame()
       default:
         return position
     }   
   }
 
+  function timer() {
+    let i = 3
+    let interval = setInterval(() => {
+      setCountToStart(i)
+      if (i === 0) {
+        clearInterval(interval)
+        setCountToStart('GO!')
+        setStartGame(true)
+        setTimeout(() => setCountToStart(''), 1000)
+      }
+      i--
+    }, 1000)
+  }
 
   //Function for get a username from form and add in InfoBar
   function formSubmit(event) {
@@ -48,17 +72,17 @@ const ScreenWrapper = () => {
       setNickname(username)
     }
     playGame()
-    console.log(startGame)
   }
 
   useEffect(() => document.addEventListener('keypress', moveCar))
 
   return (
     <Screen start={startGame}>
-      <PausedLayer>
+      <PausedLayer paused={paused}>
         <PlayerForm event={formSubmit} />
       </PausedLayer>
       <InfoBar username={nickname}/>
+      <CountDown>{countToStart}</CountDown>
       <CarWrapper position={position}/>
     </Screen>
 )}
