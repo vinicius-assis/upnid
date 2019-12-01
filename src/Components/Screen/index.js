@@ -7,6 +7,7 @@ import CarWrapper from '../Car'
 import PausedLayer from '../PausedLayer'
 import PlayerForm from '../PlayerForm'
 import CountDown from '../Countdown'
+import TurboVisor from '../TurboInfo'
 
 
 const Screen = styled.div`
@@ -28,6 +29,11 @@ const ScreenWrapper = () => {
   const [countToStart, setCountToStart] = useState('')
   const [countLap, setCountLap] = useState(0)
   const [apperMessage, setApperMessage] = useState(false)
+  const [turbo, setTurbo] = useState({
+    status: false,
+    timeOut: 1000,
+    number: 1
+  })
 
   const pauseGame = () => {
     setPaused(true)
@@ -46,6 +52,12 @@ const ScreenWrapper = () => {
         return setPosition('right')
       case 'p':
         return pauseGame()
+      case 't':
+        return setTurbo({
+          status: true,
+          timeOut: 800,
+          number: 0
+        })
       default:
         return position
     }   
@@ -58,12 +70,16 @@ const ScreenWrapper = () => {
   if (username !== '') {
     setNickname(username)
   }
+  if(countLap === 5) {
+    setCountLap(0)
+  }
   setPrepare(true)
   setPaused(false)
   }
 
   const resetGame = (event) => {
     event.preventDefault()
+    setNickname('Unknown')
     setFinished(true)
     setCountLap(0)
   }
@@ -103,10 +119,10 @@ const ScreenWrapper = () => {
         }
         setCountLap(count)
         count++
-      }, 1000)
+      }, turbo.timeOut)
     }
     return () => clearInterval(interval)
-  }, [countLap, paused, startGame, finished])
+  }, [countLap, paused, startGame, finished, turbo])
   
 
   useEffect(() => document.addEventListener('keypress', moveCar))
@@ -122,9 +138,10 @@ const ScreenWrapper = () => {
           username={nickname}
           message={apperMessage}/>
       </PausedLayer>}
-      <InfoBar username={nickname} lap={countLap}/>
+      <InfoBar username={nickname} lap={countLap} />
       <CountDown>{countToStart}</CountDown>
-      <CarWrapper position={position}/>
+      <CarWrapper position={position} status={turbo.status} enableTurbo={startGame} />
+      <TurboVisor amount={turbo.number} />
     </Screen>
 )}
 

@@ -1,6 +1,18 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { keyframes, css } from 'styled-components'
 import Image from '../../assets/carro.png'
+
+const turbo = keyframes`
+  0 {
+    transfrom: translate(-60%, 10%)
+  }
+  50% {
+    transform: translate(-60%, -30%)
+  }
+  100% {
+    transfrom: translate(-60%, 10%)
+  }
+`;
 
 const Car = styled.img.attrs({
   src: Image
@@ -26,10 +38,11 @@ const Wrapper = styled.div`
   }};
   transform: translate(-60%, 10%);
   transition: left .3s linear;
+  ${props => props.active && props.enable ? css`animation: ${turbo} 4s linear;` : ''}
 `
 
-const CarWrapper = ({ position }) => (
-  <Wrapper move={position}>
+const CarWrapper = ({ position, status, enableTurbo, turboAmount }) => (
+  <Wrapper move={position} active={status} enable={enableTurbo}>
     <Car />
   </Wrapper>
 )
