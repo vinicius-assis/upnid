@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.js": "/upnid/static/js/main.64366b3b.chunk.js",
+    "main.js.map": "/upnid/static/js/main.64366b3b.chunk.js.map",
+    "runtime-main.js": "/upnid/static/js/runtime-main.7edecc76.js",
+    "runtime-main.js.map": "/upnid/static/js/runtime-main.7edecc76.js.map",
+    "static/js/2.842e9a4a.chunk.js": "/upnid/static/js/2.842e9a4a.chunk.js",
+    "static/js/2.842e9a4a.chunk.js.map": "/upnid/static/js/2.842e9a4a.chunk.js.map",
+    "index.html": "/upnid/index.html",
+    "precache-manifest.7bdc6fb837b479068157d6ccc4ef4600.js": "/upnid/precache-manifest.7bdc6fb837b479068157d6ccc4ef4600.js",
+    "service-worker.js": "/upnid/service-worker.js",
+    "static/media/carro.png": "/upnid/static/media/carro.56be0a4e.png",
+    "static/media/fundo-carro.gif": "/upnid/static/media/fundo-carro.d0d2cd17.gif",
+    "static/media/paused-fundo.png": "/upnid/static/media/paused-fundo.57d18c58.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7edecc76.js",
+    "static/js/2.842e9a4a.chunk.js",
+    "static/js/main.64366b3b.chunk.js"
+  ]
+}
