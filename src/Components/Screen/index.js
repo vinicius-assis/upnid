@@ -22,7 +22,7 @@ const ScreenWrapper = () => {
   const [startGame, setStartGame] = useState(false)
   const [prepare, setPrepare] = useState(false)
   const [paused, setPaused] = useState(true)
-  const [finished, setFinished] = useState(false)
+  const [finished, setFinished] = useState(true)
   const [position, setPosition] = useState('middle')
   const [nickname, setNickname] = useState('Unknown')
   const [countToStart, setCountToStart] = useState('')
@@ -32,6 +32,7 @@ const ScreenWrapper = () => {
     setPaused(true)
     setStartGame(false)
     setPrepare(false)
+    setFinished(false)
   }
 
   const moveCar = (event) => {
@@ -60,6 +61,12 @@ const ScreenWrapper = () => {
   setPaused(false)
   }
 
+  const resetGame = (event) => {
+    event.preventDefault()
+    setFinished(true)
+    setCountLap(0)
+  }
+
   //Active countdown to start the game
   useEffect(() => {
     let count = 3
@@ -77,7 +84,7 @@ const ScreenWrapper = () => {
     }, 800)
   }, [prepare])
 
-
+  //Active countLap when the game start
   useEffect(() => {
     let count = countLap
     let interval = null
@@ -90,23 +97,24 @@ const ScreenWrapper = () => {
         } else if (paused) {
           clearInterval(interval)
           pauseGame()
+          setFinished(false)
         }
         setCountLap(count)
-        console.log(paused)
         count++
       }, 1000)
     }
     return () => clearInterval(interval)
-  }, [countLap, paused, startGame])
+  }, [countLap, paused, startGame, finished])
   
 
   useEffect(() => document.addEventListener('keypress', moveCar))
 
   return (
     <Screen start={startGame} >
-      <PausedLayer paused={paused}>
-        <PlayerForm event={formSubmit} />
-      </PausedLayer>
+      {paused &&
+      <PausedLayer>
+        <PlayerForm event={formSubmit} isFinished={finished} resetEvent={resetGame}/>
+      </PausedLayer>}
       <InfoBar username={nickname} lap={countLap}/>
       <CountDown>{countToStart}</CountDown>
       <CarWrapper position={position}/>

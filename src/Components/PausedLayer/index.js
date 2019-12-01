@@ -8,7 +8,6 @@ const PausedLayer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  ${props => props.paused === true ? '' : 'display: none;'}
 `
 
 export default PausedLayer

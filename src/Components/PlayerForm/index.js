@@ -20,26 +20,32 @@ const Input = styled.input.attrs({
     opacity: 1;
   }
 `
+//({state}) => state ? 'Start!' : 'Restart!'
 
 const Submit = styled.input.attrs({
   type: 'submit',
-  value: 'Start!'
+  value: ({newGame, state}) => newGame 
+            ? 'New Game' 
+            : state 
+              ? 'Start!' 
+              : 'Restart!'
 })`
   width: 150px;
   height: 50px;
   border: none;
   border-radius: 4px;
-  background-color: red;
+  background-color: ${({newGame}) => newGame ? 'green' : 'red' };
   color: #fff;
   font-size: 2.4rem;
   font-weight: bold;
-  box-shadow: 3px 4px 0px #d20000;
+  box-shadow: ${({newGame}) => newGame ? '3px 4px 0px #008000' : '3px 4px 0px #d20000' };
   cursor: pointer;
   transition: all .3s linear;
+  ${({newGame}) => newGame ? 'margin-bottom: 20px' : ''}
 
   &:hover {
-    background:#d20000;
-    box-shadow:3px 4px 0 #b00000;
+    background: ${({newGame}) => newGame ? '#00b000' : '#d20000'} ;
+    box-shadow: ${({newGame}) => newGame ? '3px 4px 0 #008000' : '3px 4px 0 #b00000'};
   }
 
   &:active {
@@ -55,10 +61,11 @@ const Form = styled.form`
   flex-direction: column;
 `
 
-const PlayerForm = ({ event }) => (
+const PlayerForm = ({ event, isFinished, resetEvent }) => (
   <Form onSubmit={event}>
-    <Input />
-    <Submit />
+    {isFinished && <Input/>}
+    {!isFinished && <Submit newGame onClick={resetEvent} />}
+    <Submit state={isFinished} />
   </Form>
 )
 
