@@ -2,6 +2,7 @@
 
 Upnid Race is a game create using *[React](https://reactjs.org/)* and *[Styled Components](https://www.styled-components.com/)*.
 
+
 ## Getting Start
 
 ```terminal
@@ -9,6 +10,10 @@ git clone ghttps://github.com/vinicius-assis/upnid.git
 npm install
 npm start
 ```
+
+### or acess the link below to play
+
+#### [Upnid Race](https://vinicius-assis.github.io/upnid/)
 
 ## Commands
 
