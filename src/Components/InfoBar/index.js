@@ -18,10 +18,10 @@ const InfoWrapper = styled.div`
   padding: 10px 20px 0;
 `
 
-const InfoBar = ({ username }) => (
+const InfoBar = ({ username, lap }) => (
   <InfoWrapper>
     <Nickname>{username}</Nickname>
-    <LapCount>1/5</LapCount>
+    <LapCount>{lap}/5</LapCount>
   </InfoWrapper>
 )
 

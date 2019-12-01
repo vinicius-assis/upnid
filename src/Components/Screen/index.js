@@ -24,6 +24,7 @@ const ScreenWrapper = () => {
   const [position, setPosition] = useState('middle')
   const [nickname, setNickname] = useState('Unknown')
   const [countToStart, setCountToStart] = useState('')
+  const [countLap, setCountLap] = useState(1)
   
   function playGame() {
     setPaused(false)
@@ -58,10 +59,22 @@ const ScreenWrapper = () => {
         clearInterval(interval)
         setCountToStart('GO!')
         setStartGame(true)
+        lapCount()
         setTimeout(() => setCountToStart(''), 1000)
       }
       i--
-    }, 1000)
+    }, 700)
+  }
+
+  function lapCount() {
+    let i = 1
+    let interval = setInterval(() => {
+      setCountLap(i)
+      if (i === 5) {
+        clearInterval(interval)
+      }
+      i++
+    }, 1500)
   }
 
   //Function for get a username from form and add in InfoBar
@@ -81,7 +94,7 @@ const ScreenWrapper = () => {
       <PausedLayer paused={paused}>
         <PlayerForm event={formSubmit} />
       </PausedLayer>
-      <InfoBar username={nickname}/>
+      <InfoBar username={nickname} lap={countLap}/>
       <CountDown>{countToStart}</CountDown>
       <CarWrapper position={position}/>
     </Screen>
