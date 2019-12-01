@@ -12,7 +12,7 @@ import CountDown from '../Countdown'
 const Screen = styled.div`
   width: 100vw;
   height: 100vh;
-  background-image: url(${props => props.start === true ? Background : BackgroundPaused });
+  background-image: url(${props => props.start ? Background : BackgroundPaused });
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -20,23 +20,21 @@ const Screen = styled.div`
 
 const ScreenWrapper = () => {
   const [startGame, setStartGame] = useState(false)
+  const [prepare, setPrepare] = useState(false)
   const [paused, setPaused] = useState(true)
+  const [finished, setFinished] = useState(false)
   const [position, setPosition] = useState('middle')
   const [nickname, setNickname] = useState('Unknown')
   const [countToStart, setCountToStart] = useState('')
-  const [countLap, setCountLap] = useState(1)
-  
-  function playGame() {
-    setPaused(false)
-    timer()
-  }
+  const [countLap, setCountLap] = useState(0)
 
-  function pauseGame() {
+  const pauseGame = () => {
     setPaused(true)
     setStartGame(false)
+    setPrepare(false)
   }
 
-  function moveCar(event) {
+  const moveCar = (event) => {
     switch(event.key) {
       case 'a':
         return setPosition('left')
@@ -51,46 +49,61 @@ const ScreenWrapper = () => {
     }   
   }
 
-  function timer() {
-    let i = 3
-    let interval = setInterval(() => {
-      setCountToStart(i)
-      if (i === 0) {
-        clearInterval(interval)
-        setCountToStart('GO!')
-        setStartGame(true)
-        lapCount()
-        setTimeout(() => setCountToStart(''), 1000)
-      }
-      i--
-    }, 700)
-  }
-
-  function lapCount() {
-    let i = 1
-    let interval = setInterval(() => {
-      setCountLap(i)
-      if (i === 5) {
-        clearInterval(interval)
-      }
-      i++
-    }, 1500)
-  }
-
   //Function for get a username from form and add in InfoBar
-  function formSubmit(event) {
-    event.preventDefault()
-    let username = event.target.username.value
-    if (username !== '') {
-      setNickname(username)
-    }
-    playGame()
+  const formSubmit = (event) => {
+  event.preventDefault()
+  let username = event.target.username.value
+  if (username !== '') {
+    setNickname(username)
   }
+  setPrepare(true)
+  setPaused(false)
+  }
+
+  //Active countdown to start the game
+  useEffect(() => {
+    let count = 3
+    const interval = prepare && setInterval(() => {
+      setCountToStart(count)
+      if(count === 0) {
+        setStartGame(true)
+        setCountToStart('GO!')
+      } else if (count < 0) {
+        clearInterval(interval)
+        setCountToStart('')
+      }
+      count--
+
+    }, 800)
+  }, [prepare])
+
+
+  useEffect(() => {
+    let count = countLap
+    let interval = null
+    if (startGame) {
+      interval = setInterval(() => {
+        if (count === 5) {
+          clearInterval(interval)
+          pauseGame()
+          setFinished(true)
+        } else if (paused) {
+          clearInterval(interval)
+          pauseGame()
+        }
+        setCountLap(count)
+        console.log(paused)
+        count++
+      }, 1000)
+    }
+    return () => clearInterval(interval)
+  }, [countLap, paused, startGame])
+  
 
   useEffect(() => document.addEventListener('keypress', moveCar))
 
   return (
-    <Screen start={startGame}>
+    <Screen start={startGame} >
       <PausedLayer paused={paused}>
         <PlayerForm event={formSubmit} />
       </PausedLayer>
